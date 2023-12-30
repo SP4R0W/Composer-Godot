@@ -44,24 +44,24 @@ namespace ComposerLib
 
         public Scene GetScene(string name)
         {
-            if (!Scenes.ContainsKey(name))
+            if (!Scenes.TryGetValue(name, out Scene scene))
             {
                 GD.PrintErr($"GetScene error: Scene {name} doesn't exist in memory.");
                 return null;
             }
 
-            return Scenes[name];
+            return scene;
         }
 
         public void AddScene(string name, string path, AddSettings settings = null)
         {
-            if (Scenes.ContainsKey(name))
+            if (Scenes.TryGetValue(name, out var scene))
             {
                 GD.PrintErr($"AddScene error: Scene {name} already exists in memory.");
                 return;
             }
 
-            var scene = new Scene(name, path);
+            scene = new Scene(name, path);
             scene.FinishedLoading += OnSceneLoaded;
             scene.FinishedCreating += OnSceneCreated;
 
@@ -74,7 +74,7 @@ namespace ComposerLib
 
         public async void LoadScene(string name, LoadSettings settings = null)
         {
-            if (!Scenes.ContainsKey(name))
+            if (!Scenes.TryGetValue(name, out var scene))
             {
                 GD.PrintErr($"LoadScene error: Scene {name} doesn't exist in memory.");
                 return;
@@ -82,7 +82,6 @@ namespace ComposerLib
 
             VerifyPreLoadSettings(name, settings);
 
-            var scene = Scenes[name];
             scene.Load();
 
             await ToSignal(scene,Scene.SignalName.FinishedLoading);
@@ -94,7 +93,7 @@ namespace ComposerLib
         {
             settings ??= DefaultCreateSettings;
 
-            if (!Scenes.ContainsKey(name))
+            if (!Scenes.TryGetValue(name, out var scene))
             {
                 GD.PrintErr($"CreateScene error: Scene {name} doesn't exist in memory.");
                 return;
@@ -102,7 +101,6 @@ namespace ComposerLib
 
             VerifyPreCreateSettings(name, settings);
 
-            var scene = Scenes[name];
             scene.Create(settings.SceneParent);
 
             await ToSignal(scene, Scene.SignalName.FinishedCreating);
@@ -120,52 +118,51 @@ namespace ComposerLib
 
         public void EnableScene(string name)
         {
-            if (!Scenes.ContainsKey(name))
+            if (!Scenes.TryGetValue(name, out var scene))
             {
                 GD.PrintErr($"EnableScene error: Scene {name} doesn't exist in memory.");
                 return;
             }
 
-            Scenes[name].Enable();
+            scene.Enable();
             EmitSignal(SignalName.SceneEnabled, name);
             ComposerGD?.EmitSignal(ComposerGD.SignalName.SceneEnabled, name);
         }
 
         public void DisableScene(string name)
         {
-            if (!Scenes.ContainsKey(name))
+            if (!Scenes.TryGetValue(name, out var scene))
             {
                 GD.PrintErr($"EnableScene error: Scene {name} doesn't exist in memory.");
                 return;
             }
 
-            Scenes[name].Disable();
+            scene.Disable();
             EmitSignal(SignalName.SceneDisabled, name);
             ComposerGD?.EmitSignal(ComposerGD.SignalName.SceneDisabled, name);
         }
 
         public void RemoveScene(string name)
         {
-            if (!Scenes.ContainsKey(name))
+            if (!Scenes.TryGetValue(name, out var scene))
             {
                 GD.PrintErr($"RemoveScene error: Scene {name} doesn't exist in memory.");
                 return;
             }
 
-            Scenes[name].Remove();
+            scene.Remove();
             EmitSignal(SignalName.SceneRemoved, name);
             ComposerGD?.EmitSignal(ComposerGD.SignalName.SceneRemoved, name);
         }
 
         public void DisposeScene(string name)
         {
-            if (!Scenes.ContainsKey(name))
+            if (!Scenes.TryGetValue(name, out var scene))
             {
                 GD.PrintErr($"DisposeScene error: Scene {name} doesn't exist in memory.");
                 return;
             }
 
-            var scene = Scenes[name];
             scene.FinishedLoading -= OnSceneLoaded;
             scene.FinishedCreating -= OnSceneCreated;
             scene.Dispose();
