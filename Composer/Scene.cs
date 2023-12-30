@@ -16,10 +16,10 @@ namespace ComposerLib
         public PackedScene Resource {get; set;} = null;
         public Node Instance {get; private set;} = null;
 
-        public Scene(string internalName, string path)
+        public Scene(string InternalName, string Path)
         {
-            InternalName = internalName;
-            Path = path;
+            this.InternalName = InternalName;
+            this.Path = Path;
         }
 
         public void Load()
