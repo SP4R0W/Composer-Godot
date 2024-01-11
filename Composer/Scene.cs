@@ -78,16 +78,20 @@ namespace ComposerLib
             Instance.ProcessMode = Node.ProcessModeEnum.Disabled;
         }
 
-        public void Remove()
+        public void Remove(bool instantly)
         {
-            Instance?.QueueFree();
+            if (instantly) Instance?.Free();
+            else Instance?.QueueFree();
+            
             Instance = null;
         }
 
-        public new void Dispose()
+        public new void Dispose(bool instantly)
         {
             Resource?.Dispose();
-            Instance?.QueueFree();
+
+            if (instantly) Instance?.Free();
+            else Instance?.QueueFree();
 
             Resource = null;
             Instance = null;

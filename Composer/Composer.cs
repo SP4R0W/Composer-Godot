@@ -206,7 +206,7 @@ namespace ComposerLib
             ComposerGD?.EmitSignal(ComposerGD.SignalName.SceneDisabled, name);
         }
 
-        public void RemoveScene(string name)
+        public void RemoveScene(string name, bool instantly = false)
         {
             var scene = GetScene(name);
 
@@ -216,12 +216,12 @@ namespace ComposerLib
                 return;
             }
 
-            scene.Remove();
+            scene.Remove(instantly);
             EmitSignal(SignalName.SceneRemoved, name);
             ComposerGD?.EmitSignal(ComposerGD.SignalName.SceneRemoved, name);
         }
 
-        public void DisposeScene(string name)
+        public void DisposeScene(string name, bool instantly = false)
         {
             var scene = GetScene(name);
 
@@ -233,7 +233,7 @@ namespace ComposerLib
 
             scene.FinishedLoading -= OnSceneLoaded;
             scene.FinishedCreating -= OnSceneCreated;
-            scene.Dispose();
+            scene.Dispose(instantly);
             Scenes.Remove(name);
 
             EmitSignal(SignalName.SceneDisposed, name);

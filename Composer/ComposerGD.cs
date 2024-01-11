@@ -120,14 +120,14 @@ namespace ComposerLib
             Composer.DisableScene(name);
         }
 
-        public void RemoveScene(string name)
+        public void RemoveScene(string name, bool instantly = false)
         {
-            Composer.RemoveScene(name);
+            Composer.RemoveScene(name, instantly);
         }
 
-        public void DisposeScene(string name)
+        public void DisposeScene(string name, bool instantly = false)
         {
-            Composer.DisposeScene(name);
+            Composer.DisposeScene(name, instantly);
         }
 
         private ComposerSettings MatchSettings(Dictionary<string, Variant> dictSettings)
