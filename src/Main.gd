@@ -6,3 +6,8 @@ func _ready():
 		"instant_create":true,
 		"scene_parent":self
 	})
+	
+	ComposerGD.AddScene("SecondaryMenu", "res://src/secondary_menu.tscn", {
+		"instant_load":true,
+		"instant_create":true,
+	})
