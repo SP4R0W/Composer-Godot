@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 namespace ComposerLib
 {
@@ -277,9 +276,7 @@ namespace ComposerLib
         private void VerifyPreCreateSettings(string name, CreateSettings settings)
         {
             if (!IsInstanceValid(settings.SceneParent))
-            {
-                throw new ArgumentException($"Invalid SceneParent argument for CreateScene, scene {name}");
-            }
+                GD.PrintErr($"Invalid SceneParent argument for CreateScene, scene {name}");
         }
 
         private void VerifyPostCreateSettings(string name, CreateSettings settings)
