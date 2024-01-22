@@ -151,12 +151,16 @@ namespace ComposerLib
             VerifyPostCreateSettings(name, settings);
         }
 
-        public void ReplaceScene(string sceneToRemove, string sceneToAdd, Node parent)
+        public void ReplaceScene(string sceneToRemove, string sceneToAdd, Node parent = null)
         {
             RemoveScene(sceneToRemove);
-            CreateScene(sceneToAdd, new CreateSettings{
-                SceneParent = parent
-            });
+
+            if (parent != null)
+                CreateScene(sceneToAdd, new CreateSettings{
+                    SceneParent = parent
+                });
+            else
+                CreateScene(sceneToAdd);
         }
 
         public void ReloadScene(string name)
