@@ -259,6 +259,12 @@ SceneRemoved(string sceneName)
 SceneDisposed(string sceneName)
 ```
 
+**SceneReplaced**
++ Emitted when scene has been replaced via ReplaceScene(). Fires with oldSceneName and NewSceneName parameters
+```
+SceneReplaced(string oldSceneName, string newSceneName)
+```
+
 </details>
 
 <details>
